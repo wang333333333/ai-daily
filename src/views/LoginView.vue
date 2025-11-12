@@ -32,9 +32,13 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
+import { useAuthStore } from '../stores/auth'
+import { authApi } from '../services'
+import type { LoginRequest, User } from '../types'
 
 const router = useRouter()
-const formRef = ref<FormInstance>()
+const authStore = useAuthStore()
+const formRef = ref<FormInstance | null>(null)
 const loading = ref(false)
 
 const loginForm = reactive({
@@ -56,20 +60,35 @@ const rules = reactive<FormRules>({
 const handleLogin = async () => {
   if (!formRef.value) return
 
-  await formRef.value.validate((valid) => {
+  await formRef.value.validate(async (valid) => {
     if (valid) {
       loading.value = true
-      // 模拟登录请求
-      setTimeout(() => {
-        loading.value = false
-        // 简单的登录验证
-        if (loginForm.username === 'admin' && loginForm.password === '123456') {
-          // 登录成功后跳转到日报页
-          router.push('/daily')
-        } else {
-          alert('用户名或密码错误')
+      try {
+        // 使用真实的API进行登录
+        const credentials: LoginRequest = {
+          username: loginForm.username,
+          password: loginForm.password
         }
-      }, 1000)
+
+        // 调用服务文件中的登录方法
+        const response = await authApi.login(credentials)
+
+        // 将认证信息存储到store中
+        authStore.setAuth(response.data.token, {
+          ...response.data.user,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        } as User)
+
+        // 登录成功后跳转到日报页
+        router.push('/daily')
+      } catch (error) {
+        console.error('登录失败:', error)
+        const errorMessage = error instanceof Error ? error.message : '未知错误'
+        alert('登录失败: ' + errorMessage)
+      } finally {
+        loading.value = false
+      }
     }
   })
 }

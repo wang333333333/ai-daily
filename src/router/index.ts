@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -6,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('@/views/Login/index.vue'),
+      component: () => import('../views/LoginView.vue'),
     },
     {
       path: '/about',
@@ -22,6 +23,7 @@ const router = createRouter({
       path: '/daily',
       name: 'daily',
       component: () => import('../views/DailyView.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/find-password',
@@ -32,8 +34,23 @@ const router = createRouter({
       path: '/api-example',
       name: 'apiExample',
       component: () => import('../views/ApiExample.vue'),
+      meta: { requiresAuth: true }
     },
   ],
+})
+
+// 全局前置守卫
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  
+  // 检查目标路由是否需要认证
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    // 如果需要认证但用户未登录，则重定向到登录页
+    next('/login')
+  } else {
+    // 否则允许导航
+    next()
+  }
 })
 
 export default router
