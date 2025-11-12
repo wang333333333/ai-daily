@@ -59,9 +59,10 @@ const togglePassword = () => {
   console.log(showPassword.value)
 }
 
-// 跳转忘记密码页
+// 跳转忘记密码
 const router = useRouter()
 const forgetPassword = () => {
+  console.log('跳转忘记密码')
   router.push('/find-password')
 }
 

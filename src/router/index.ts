@@ -6,30 +6,31 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('../views/LoginView.vue'),
+      name: 'login',
+      component: () => import('../views/Login/index.vue'),
+    },
+    {
+      path: '/find-password',
+      name: 'findPassword',
+      component: () => import('../views/FindPassword/index.vue'),
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
-    },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component: () => import('../views/LoginView.vue'),
+    // },
     {
       path: '/daily',
       name: 'daily',
       component: () => import('../views/DailyView.vue'),
       meta: { requiresAuth: true }
     },
-    {
-      path: '/find-password',
-      name: 'findPassword',
-      component: () => import('../views/FindPasswordView.vue'),
-    },
+    
     {
       path: '/api-example',
       name: 'apiExample',

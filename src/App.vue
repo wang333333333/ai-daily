@@ -6,7 +6,7 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <div>
+  <div class="app-container">
     <div v-if="authStore.isAuthenticated" class="logout-container">
       <button @click="authStore.clearAuth" class="logout-button">登出</button>
     </div>
@@ -16,6 +16,11 @@ const authStore = useAuthStore()
 
 <style lang="scss">
 // 全局样式已在main.ts中引入
+
+.app-container {
+  width: 100%;
+  height: 100%;
+}
 
 .logout-container {
   position: fixed;
