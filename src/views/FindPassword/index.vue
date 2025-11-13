@@ -5,41 +5,66 @@
         <img src="@/assets/images/login-banner.png" class="login__banner-image" />
       </div>
       <div class="login__form">
-        <div class="login__form-header">
-          <img src="@/assets/images/logo.png" />
-          <p>欢迎登录 GEO优化查询平台</p>
+        <div class="login__form-header" @click="goBack">
+          <el-icon><ArrowLeftBold /></el-icon>
+          <span>重置密码</span>
         </div>
         <div class="login__form-body">
           <el-form :model="ruleForm" :rules="rules" ref="ruleFormRef" class="demo-ruleForm">
             <el-form-item label="" prop="name">
-              <el-input v-model="ruleForm.username" placeholder="账号"></el-input>
+              <el-input v-model="ruleForm.username" placeholder="手机号码"></el-input>
             </el-form-item>
             <el-form-item label="" prop="name">
+              <el-input v-model="ruleForm.username" placeholder="输入验证码"></el-input>
+              <div class="login__form-code">获取验证码</div>
+            </el-form-item>
+            <el-form-item label="" prop="password">
               <el-input
                 v-model="ruleForm.password"
-                placeholder="请输入登录密码"
+                placeholder="新密码"
                 :type="showPassword ? 'text' : 'password'"
               ></el-input>
               <img
                 v-if="!showPassword"
                 class="login__form-eye"
                 src="@/assets/images/close.png"
-                @click="togglePassword"
+                @click="showPassword = !showPassword"
               />
               <img
                 v-else
                 class="login__form-eye"
                 src="@/assets/images/open.png"
-                @click="togglePassword"
+                @click="showPassword = !showPassword"
+              />
+            </el-form-item>
+            <el-form-item label="" prop="password">
+              <el-input
+                v-model="ruleForm.password"
+                placeholder="请再次输入新密码"
+                :type="showPassword ? 'text' : 'password'"
+              ></el-input>
+              <img
+                v-if="!showPassword"
+                class="login__form-eye"
+                src="@/assets/images/close.png"
+                @click="showPassword = !showPassword"
+              />
+              <img
+                v-else
+                class="login__form-eye"
+                src="@/assets/images/open.png"
+                @click="showPassword = !showPassword"
               />
             </el-form-item>
             <el-form-item>
               <el-button class="login__form-button" type="primary" @click="submitForm('ruleForm')"
-                >登录</el-button
+                >确认</el-button
               >
             </el-form-item>
           </el-form>
-          <div class="login__form-footer" @click="forgetPassword"><span>忘记密码了？</span><span style="color:#3E1FFF;">重置密码</span></div>
+          <div class="login__form-footer">
+            <span>请通过绑定的手机号码重置密码后，使用新密</span>
+          </div>
         </div>
       </div>
     </div>
@@ -54,16 +79,11 @@ import { ElMessage } from 'element-plus'
 
 // 密码图标的切换
 const showPassword = ref(false)
-const togglePassword = () => {
-  showPassword.value = !showPassword.value
-  console.log(showPassword.value)
-}
 
-// 跳转忘记密码
+// 跳转登录页
 const router = useRouter()
-const forgetPassword = () => {
-  console.log('跳转忘记密码')
-  router.push('/find-password')
+const goBack = () => {
+  router.push('/')
 }
 
 // 表单引用
@@ -158,21 +178,20 @@ const resetForm = () => {
 }
 
 .login__form-header {
-  img {
-    display: block;
-    width: 80px;
-    height: 69px;
-    margin-bottom: 16px;
-  }
-
-  font-family: PingFangSC, PingFang SC;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 16px;
   color: #222222;
+  padding: 0 3px;
+  span {
+    margin-left: 13px;
+  }
 }
 
 .login__form-body {
-  margin-top: 48px;
+  margin-top: 24px;
   .el-input {
     height: 46px;
     border-radius: 8px;
@@ -180,6 +199,23 @@ const resetForm = () => {
   }
   :deep(.el-input__wrapper) {
     padding: 1px 16px !important;
+  }
+  .login__form-code {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 112px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 16px;
+    background: #d7d1ff;
+    border-radius: 0px 8px 8px 0px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #222222;
+    cursor: pointer;
   }
   .login__form-eye {
     display: block;
@@ -197,16 +233,14 @@ const resetForm = () => {
     background: linear-gradient(135deg, #291bff 0%, #ba3aff 100%);
     border-radius: 8px;
     color: #ffffff;
-    font-family: PingFangSC, PingFang SC;
     font-weight: 500;
     font-size: 20px;
-    margin-top: 46px;
+    margin-top: 27px;
   }
   .login__form-footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: PingFangSC, PingFang SC;
     font-weight: 400;
     font-size: 14px;
     font-size: 14px;

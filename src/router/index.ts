@@ -15,28 +15,10 @@ const router = createRouter({
       component: () => import('../views/FindPassword/index.vue'),
     },
     {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
-    },
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: () => import('../views/LoginView.vue'),
-    // },
-    {
       path: '/daily',
       name: 'daily',
-      component: () => import('../views/DailyView.vue'),
-      meta: { requiresAuth: true }
-    },
-    
-    {
-      path: '/api-example',
-      name: 'apiExample',
-      component: () => import('../views/ApiExample.vue'),
-      meta: { requiresAuth: true }
-    },
+      component: () => import('../views/Daily/index.vue'),
+    }
   ],
 })
 

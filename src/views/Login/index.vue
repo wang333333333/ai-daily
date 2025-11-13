@@ -63,6 +63,7 @@ const togglePassword = () => {
 const router = useRouter()
 const forgetPassword = () => {
   router.push('/find-password')
+  console.log('123')
 }
 
 // 表单引用
