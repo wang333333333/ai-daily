@@ -219,6 +219,14 @@ const initChart = () => {
       axisPointer: {
         type: 'shadow',
       },
+      formatter: function(params) {
+        let result = params[0].name + '<br/>'
+        params.forEach(item => {
+            console.log('item',item)
+          result += item.marker + item.seriesName + ': ' + item.value + '%<br/>'
+        })
+        return result
+      }
     },
     legend: {
       data: ['上榜比例', '前三比例'],
